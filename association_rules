@@ -1,0 +1,20 @@
+import pandas as pd
+from mlxtend.frequent_patterns import fpgrowth, association_rules
+
+# Sample dataset (simplified)
+data = pd.DataFrame([
+    ['young','myope','no','reduced','none'],
+    ['young','myope','no','normal','soft'],
+    ['young','myope','yes','normal','hard']
+], columns=['age','spec','astig','tear','class'])
+
+# Convert to one-hot encoding
+df = pd.get_dummies(data)
+
+# Apply FP-Growth
+frequent = fpgrowth(df, min_support=0.1, use_colnames=True)
+
+# Generate rules
+rules = association_rules(frequent, metric="confidence", min_threshold=0.9)
+
+print(rules)
