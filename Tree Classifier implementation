@@ -1,0 +1,18 @@
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import preprocessing
+
+data = [['Sunny','Hot','High','Weak','No'],
+        ['Overcast','Hot','High','Weak','Yes'],
+        ['Rain','Mild','High','Weak','Yes']]
+
+le = preprocessing.LabelEncoder()
+
+X = [row[:-1] for row in data]
+y = [row[-1] for row in data]
+
+X_encoded = [[le.fit_transform(col) for col in zip(*X)]][0]
+
+clf = DecisionTreeClassifier(criterion="entropy")
+clf.fit(list(zip(*X_encoded)), le.fit_transform(y))
+
+print("Model trained using ID3")
